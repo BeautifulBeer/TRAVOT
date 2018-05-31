@@ -9,15 +9,16 @@ import re
 import json
 import os
 import urllib.request
+from bs4 import BeautifulSoup
+
 
 root_dir = os.getcwd()
+
 # all varying information about this project is in config.json
 config_file = 'config.json'
 f_config = open(config_file, 'r')
 config_json = json.loads(f_config.read())
-
 end_point = config_json['end_point']
-
 
 #regular expression pattern
 htmltag_rge = re.compile('<.*?>')
@@ -68,5 +69,36 @@ def query_normalization(query):
 
 def prepro_naverkin(json_text):
     print()
+    
+    
+def crawling_naverkin(url):
+    question_title = 'None'
+    question_content = 'None'
+    answer_contents = 'None'
+    request = urllib.request.Request(url)
+    response = urllib.request.urlopen(request)
+    rescode = response.getcode()
+    if rescode == 200:
+        response_body = response.read()
+        soup = BeautifulSoup(response_body, 'lxml')
+        question_div = soup.find_all('div', class_='qna_detail_question')
+        answer_div = soup.find_all('div', class_='qna_detail_answerList')
+        answer_contents = list()
+        for div in question_div:
+            question_title = div.find('span', class_='title_text').text.strip()
+            question_content = div.find('div', class_='_endContentsText').text.strip()
+        for div in answer_div:
+            for answer in div.find_all('div', class_='_endContentsText'):
+                answer_contents.append(answer.text.strip())
+            
+    else:
+        print('Error code : ' + rescode)
+    return question_title, question_content, answer_contents
+    
+    
 
 #query_naver('부산 광안대교 근처 맛집', '수영구', 'restaurants')
+question_title, question_content, answer_contents = crawling_naverkin('https://kin.naver.com/qna/detail.nhn?d1id=8&dirId=80208&docId=251251146&qb=67aA7IKwIOunm+ynkeuyoOyKpO2KuA==&enc=utf8&section=kin&rank=1&search_sort=0&spq=0')
+print(question_title)
+print(question_content)
+print(answer_contents)
