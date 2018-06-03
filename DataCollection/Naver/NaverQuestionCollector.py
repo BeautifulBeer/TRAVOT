@@ -70,10 +70,10 @@ def crawling_naverkin(url):
     return question_title, question_content, answer_contents
     
     
-def query_naver(search_keyword, path, filename):
+def query_naver(search_keyword, path):
     option = {}
     option['query'] = search_keyword
-    for i in range(1):
+    for i in range(10):
         option['start'] = 100 * i + 1
         url = url_get(end_point, option)
         print(url)
@@ -82,7 +82,7 @@ def query_naver(search_keyword, path, filename):
         rescode = response.getcode()
         if rescode == 200:
             response_body = response.read()
-            file_path = root_dir + '\\' + path + '\\' + filename + '_' + str(i+1) + '.txt'
+            file_path = root_dir + '\\' + path + '\\' + search_keyword + '_' + str(i+1) + '.txt'
             directory = os.path.dirname(file_path)
             if not os.path.exists(directory):
                 os.makedirs(directory)
@@ -112,4 +112,4 @@ def query_naver(search_keyword, path, filename):
 
 
     
-query_naver('부산 광안대교 근처 맛집', '수영구', '부산 광안대교 근처 맛집')
+query_naver('부산 광안대교 근처 맛집', '수영구')
