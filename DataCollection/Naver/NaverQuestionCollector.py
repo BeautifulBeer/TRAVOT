@@ -38,14 +38,15 @@ def url_get(end_point, option_dict):
     return url
 
 
-# preprocessed 
+# remove unuseful text
 def text_normalization(text):
     text = text.replace('\\xa0', '').replace('\\n',' ')
     text = re.sub(text_reg, ' ', text)
     text = re.sub(blank_reg, ' ', text)
     return text.strip()
+ 
     
-    
+# crawling naver kin webpage
 def crawling_naverkin(url):
     question_title = 'None'
     question_content = 'None'
@@ -68,8 +69,58 @@ def crawling_naverkin(url):
     else:
         print('Error code : ' + rescode)
     return question_title, question_content, answer_contents
-    
-    
+
+
+# extract unique link set to process data
+def build_set_data():
+    category_dir_list = [f for f in os.listdir(root_dir) if re.match('.*[^\.a-zA-Z]+',f)]
+    data = {}
+    data_set = list()
+    for category_dir in category_dir_list:
+        directory_path = root_dir + '\\' + category_dir
+        file_list = [f for f in os.listdir(directory_path) if re.match('.*\.txt', f)]
+        for file_name in file_list:
+            file_path = directory_path + '\\' + file_name
+            file = open(file_path, 'r', encoding='utf-8')
+            json_data = json.loads(file.read(), encoding='utf-8')
+            file.close()
+            for item in json_data['items']:
+                item = json.loads(item)
+                data_set.append(item['link'])
+    data_set = list(set(data_set))
+    data['len'] = len(data_set)
+    data['contents'] = data_set
+    f = open(root_dir + '\\' + 'data.json', 'w', encoding='utf-8')
+    f.write(json.dumps(data, ensure_ascii=False))
+    f.close()
+
+
+# process json file based on set data - make unique
+def build_json_set_data():
+    f = open(root_dir + '\\' + 'data.json', 'r', encoding='utf-8')
+    json_data = json.loads(f.read(), encoding='utf-8')
+    f.close()
+    data_set = dict((content, 0) for content in list(json_data['contents']))
+    category_dir_list = [f for f in os.listdir(root_dir) if re.match('.*[^\.a-zA-Z]+',f)]
+    for category_dir in category_dir_list:
+        directory_path = root_dir + '\\' + category_dir
+        file_list = [f for f in os.listdir(directory_path) if re.match('.*\.txt', f)]
+        for file_name in file_list:
+            file_path = directory_path + '\\' + file_name
+            f = open(file_path, 'r', encoding='utf-8')
+            json_data = json.loads(f.read(), encoding='utf-8')
+            f.close()
+            for idx, item in enumerate(json_data['items']):
+                item = json.loads(item)
+                if data_set[item['link']] == 0:
+                    data_set[item['link']] = 1
+                else:
+                    del json_data['items'][idx]
+            f = open(file_path, 'w', encoding='utf-8')
+            f.write(json.dumps(json_data, ensure_ascii=False))
+            f.close()
+
+# querying naver api
 def query_naver(search_keyword, path):
     option = {}
     option['query'] = search_keyword
@@ -105,11 +156,10 @@ def query_naver(search_keyword, path):
                 f.close()
             except UnicodeEncodeError:
                 print('Cannot collect data')
-            
-                
         else:
             print('Error code : ' + rescode)
 
 
     
-query_naver('부산 광안대교 근처 맛집', '수영구')
+#query_naver('부산 볼거리', '부산 전체')
+build_json_set_data()
