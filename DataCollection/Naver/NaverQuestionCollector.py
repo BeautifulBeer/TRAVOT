@@ -25,8 +25,8 @@ end_point = config_json['end_point']
 #regular expression pattern
 htmltag_rge = re.compile('<.*?>') # tag
 blank_reg = re.compile('\s+') # whitespace
-text_reg = re.compile('\[[\w|\W]+\]|[\W|\_]|[ㅠ|ㅜ|ㅎ|ㅋ]|[a-zA-Z0-9]') #any brackt | special_character | ㅋ or ㅠ | english and number
-
+text_reg = re.compile('\[[\w|\W]+\]|[\W|\_]|[ㅠ|ㅜ|ㅎ|ㅋ]|[a-zA-Z]') #any brackt | special_character | ㅋ or ㅠ | english and number
+number_reg = re.compile('[0-9]+')
 
 def url_get(end_point, option_dict):
     url = end_point + '?'
@@ -43,6 +43,7 @@ def text_normalization(text):
     text = text.replace('\\xa0', '').replace('\\n',' ')
     text = re.sub(text_reg, ' ', text)
     text = re.sub(blank_reg, ' ', text)
+    text = re.sub(number_reg, '<number>', text)
     return text.strip()
  
     
@@ -73,11 +74,11 @@ def crawling_naverkin(url):
 
 # extract unique link set to process data
 def build_set_data():
-    category_dir_list = [f for f in os.listdir(root_dir) if re.match('.*[^\.a-zA-Z]+',f)]
+    category_dir_list = [f for f in os.listdir(root_dir+'\\Raw\\') if re.match('.*[^\.a-zA-Z]+',f)]
     data = {}
     data_set = list()
     for category_dir in category_dir_list:
-        directory_path = root_dir + '\\' + category_dir
+        directory_path = root_dir + '\\Raw\\' + category_dir
         file_list = [f for f in os.listdir(directory_path) if re.match('.*\.txt', f)]
         for file_name in file_list:
             file_path = directory_path + '\\' + file_name
@@ -90,24 +91,29 @@ def build_set_data():
     data_set = list(set(data_set))
     data['len'] = len(data_set)
     data['contents'] = data_set
-    f = open(root_dir + '\\' + 'data.json', 'w', encoding='utf-8')
+    if not os.path.exists(root_dir + '\\Processed\\'):
+        os.makedirs(root_dir + '\\Processed\\')
+    f = open(root_dir + '\\Processed\\' + 'data.json', 'w', encoding='utf-8')
     f.write(json.dumps(data, ensure_ascii=False))
     f.close()
 
 
 # process json file based on set data - make unique
 def build_json_set_data():
-    f = open(root_dir + '\\' + 'data.json', 'r', encoding='utf-8')
+    f = open(root_dir + '\\Processed\\' + 'data.json', 'r', encoding='utf-8')
     json_data = json.loads(f.read(), encoding='utf-8')
     f.close()
     data_set = dict((content, 0) for content in list(json_data['contents']))
-    category_dir_list = [f for f in os.listdir(root_dir) if re.match('.*[^\.a-zA-Z]+',f)]
+    category_dir_list = [f for f in os.listdir(root_dir+'\\Raw\\') if re.match('.*[^\.a-zA-Z]+',f)]
     for category_dir in category_dir_list:
-        directory_path = root_dir + '\\' + category_dir
+        directory_path = root_dir + '\\Raw\\' + category_dir
         file_list = [f for f in os.listdir(directory_path) if re.match('.*\.txt', f)]
         for file_name in file_list:
-            file_path = directory_path + '\\' + file_name
-            f = open(file_path, 'r', encoding='utf-8')
+            r_file_path = directory_path + '\\' + file_name
+            w_file_path = root_dir + '\\Processed\\' + category_dir + '\\' + file_name
+            if not os.path.exists(os.path.dirname(w_file_path)):
+                os.makedirs(os.path.dirname(w_file_path))        
+            f = open(r_file_path, 'r', encoding='utf-8')
             json_data = json.loads(f.read(), encoding='utf-8')
             f.close()
             for idx, item in enumerate(json_data['items']):
@@ -116,9 +122,10 @@ def build_json_set_data():
                     data_set[item['link']] = 1
                 else:
                     del json_data['items'][idx]
-            f = open(file_path, 'w', encoding='utf-8')
+            f = open(w_file_path, 'w', encoding='utf-8')
             f.write(json.dumps(json_data, ensure_ascii=False))
             f.close()
+
 
 # querying naver api
 def query_naver(search_keyword, path):
@@ -133,7 +140,7 @@ def query_naver(search_keyword, path):
         rescode = response.getcode()
         if rescode == 200:
             response_body = response.read()
-            file_path = root_dir + '\\' + path + '\\' + search_keyword + '_' + str(i+1) + '.txt'
+            file_path = root_dir + '\\Raw\\' + path + '\\' + search_keyword + '_' + str(i+1) + '.txt'
             directory = os.path.dirname(file_path)
             if not os.path.exists(directory):
                 os.makedirs(directory)
@@ -160,6 +167,29 @@ def query_naver(search_keyword, path):
             print('Error code : ' + rescode)
 
 
-    
-#query_naver('부산 볼거리', '부산 전체')
-build_json_set_data()
+# odd number only works
+def make_n_grams(string, n):
+    result = list()
+    string_list = string.split()
+    str_list_len = len(string_list)
+    window_size = int(n/2)
+    for idx in range(str_list_len):
+        if idx-window_size >= 0:
+            if idx < str_list_len-window_size:
+                tmp = list()
+                for ng_idx in range(n):
+                    tmp.append(string_list[idx-window_size+ng_idx])
+                result.append(tmp)
+            else:
+                break
+            
+    if len(result) == 0:
+        diff = n-len(string_list)
+        for i in range(diff):
+            string_list.append('<NONE>')
+        result.append(string_list)
+    return result
+
+#query_naver('자갈치시장 맛집', '남포동')
+#build_json_set_data()
+print(make_n_grams('자갈치시', 5))
