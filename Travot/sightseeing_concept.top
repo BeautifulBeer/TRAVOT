@@ -1,0 +1,22 @@
+concept: ~관광지 NOUN_PROPER_SINGULAR [~관광지_부산 관광지]
+
+concept: ~관광지_부산 NOUN_PROPER_SINGULAR [~관광지_부산_자연 ~관광지_부산_시장 ~관광지_부산_건축물 ~관광지_부산_축제 부산관광지]
+concept: ~관광지_부산_자연 NOUN_PROPER_SINGULAR [~해변_부산 ~산_부산]
+concept: ~관광지_부산_시장 NOUN_PROPER_SINGULAR [~자갈치시장 ~국제시장]
+concept: ~관광지_부산_건축물 NOUN_PROPER_SINGULAR [~광안대교 ~해동용궁사 ~더베이101]
+concept: ~관광지_부산_축제 NOUN_PROPER_SINGULAR [~BIFF ~광안리불꽃축제]
+
+concept: ~해변_부산 NOUN_PROPER_SINGULAR [광안리 송정 청사포 해운대]
+concept: ~산_부산 NOUN_PROPER_SINGULAR [~금정산 ~황령산]
+
+concept: ~자갈치시장 NOUN_PROPER_SINGULAR [자갈치 자갈치시장]
+concept: ~국제시장 NOUN_PROPER_SINGULAR [국제시장]
+concept: ~BIFF NOUN_PROPER_SINGULAR ["Busan International Film Festival" 부산비프 국제영화제 부산국제영화제]
+concept: ~광안리불꽃축제 NOUN_PROPER_SINGULAR [광안리불꽃축제 부산불꽃축제 "부산 불꽃축제"]
+
+concept: ~광안대교 NOUN_PROPER_SINGULAR [광안대교]
+concept: ~해동용궁사 NOUN_PROPER_SINGULAR [해동용궁사]
+concept: ~더베이101 NOUN_PROPER_SINGULAR [더베이101 더베이]
+
+concept: ~황령산 NOUN_PROPER_SINGULAR [황령산]
+concept: ~금정산 NOUN_PROPER_SINGULAR [금정산]

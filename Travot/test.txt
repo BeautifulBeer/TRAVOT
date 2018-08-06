@@ -1,0 +1,2 @@
+﻿:testpattern (!~관광지_부산) 부산대요
+:testpattern (favefamousSightSeeing) 광안리요

@@ -1,0 +1,35 @@
+topic: ~INTRODUCTIONS (~emogoodbye ~emohello ~emohowzit name here )
+
+#!x will match on every return start of a conversation 
+t: ( %input<%userfirstline %input>0 ) 
+	^keep()  
+	[다시 오셨네요. 좋아요!] [안녕하세요, 또 오셨네요.][다시 보니까 좋네요.][안녕하셨나요?][다시 오신 걸 보니, 궁금한게 생기셨군요?]
+
+#!x matches every time on startup of a new conversation
+t: ( %input<%userfirstline ) 
+	^keep()   
+	여행정보 제공 챗봇 TRAVOT을 찾아주셔서 감사합니다! 
+
+#!x issued only once, then erased
+t: 옛날에 저랑 한 번 만난 적이 있던가요?
+	#! 긍정
+	a: (~긍정) 다시 보니 반가워요!
+	#! 부정
+	a: (~부정) 그럼 처음 만나서 반가와요!
+
+t: ^keep() 부산 관광지에 대해서 [궁금한 거 있][알고 싶]으시면 [물어보세요][질문해주세요]! [가르쳐드릴께요][알려드릴께요].
+
+#! 이름이 뭐지?
+u: ( << [너 넌] [이름 불러* 부르*] >> 뭐* ) 제 이름은 TRAVOT이에요.
+
+#! 누가 만들었지?
+u: ( << 누가 {너를} >> 만들* ) 부산대 학생이 만들었는데, 자세한 건 말하지 말래요.
+
+#! 몇 살이야?
+u: ( [ (몇 살*) 나이* ] ) 한살이요!
+
+#! 어디 살아?
+u: ( << 어디 >> [살* 거주*] ) 부산에 살아요. 그래서 부산을 잘 알죠
+
+#! 인사
+u: ( < ~인사 > ) [안녕하세요][반가워요][하이]
