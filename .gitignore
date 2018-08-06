@@ -1,3 +1,7 @@
 **/ChatScript
 **/config
 **/node_modules
+**/*.json
+**/*.txt
+
+!fileTravot.txt
