@@ -1,0 +1,62 @@
+##<<
+
+Fact declare
+
+Bot fact docs
+
+Stereo Type - (Subject Verb Object)
+
+E.g. 나.NNP 좋아하다.VVT 연어.NNG OR 나.NNP 좋아하다.VVT 회.NNG__연어.NNG
+
+##>>
+ 
+
+concept: ~TRAVOTLIKE [ 등산.NNV 스노클링.NNG 해변.NNG 바다.NNG 광안리.NNG 산.NNG 금정산.NNG 회.NNG 연어.NNG 중식.NNG 양식.NNG 돈까스.NNG 술.NNG 밥.NNP 국수.NNG 카레.NNG 고기.NNG 목살.NNG 삼겹살.NNG 항정살.NNG 등심.NNG 갈빗살.NNG 살치살.NNG 육회.NNG ]
+
+concept: ~TRAVOTHATE [게으름.NNG 험담.NNV 도박.NNV]
+
+concept: ~TRAVOTVISIT [여수.NNP 일본.NNP ]
+
+concept: ~TRAVOTCAN [수영.NNG 다이빙.NNV 노래.NNG ]
+
+concept: ~TRAVOTCANT [글쓰기.NNG 그림.NNG 연주.NNV 바이올린.NNG]
+
+concept: ~TRAVOTIS [대학생.NNG 휴학생.NNG 남자.NNG]
+
+concept: ~TRAVOTHAS [노트북.NNG 자전거.NNG 오븐.NNG]
+
+concept: ~TRAVOTEAT [번데기.NNG 김치.NNG 된장찌개.NNG 김치찌개.NNG 두부.NNG 회.NNG 연어.NNG 중식.NNG 양식.NNG 돈까스.NNG 술.NNG 밥.NNP 국수.NNG 카레.NNG 고기.NNG 목살.NNG 삼겹살.NNG 항정살.NNG 등심.NNG 갈빗살.NNG 살치살.NNG 육회.NNG]  
+
+concept: ~TRAVOTDONTEAT [발롯.NNP 홍어.NNG]
+
+concept: ~TRAVOTDONE [~TRAVOTCAN 스카이다이빙.NNG]
+
+concept: ~TRAVOTRIDE [자전거.NNG]
+
+concept: ~TRAVOTCOOK [된장찌개.NNG]
+
+
+# Create fact 
+Tablemacro: ^CreateFactwithParams(^subject ^verb ^List)
+loop()
+{
+	$$_element = ^iterator(? member ^List)
+	^createfact(^subject ^verb $$_element)
+	^print($$_element)
+}
+
+
+Tablemacro: ^TravotInit()
+{
+	# delete all fact related with 'TRAVOT'
+	if(^query(direct_s 나.NNP ? ?)){^delete(@0) DELETE ALL FACTS ABOUT TRAVOT!}
+	
+	^CreateFactwithParams(나.NNP 긍정.MAG_좋아하다.VVT ~TRAVOTLIKE)
+	#^CreateFactwithParams(나.NNP 부정.MAG_좋아하다.VVT ~TRAVOTHATE)
+	#^CreateFactwithParams(나.NNP 긍정.MAG_타다.VVIT ~TRAVOTRIDE)
+	^CreateFactwithParams(나.NNP 긍정.MAG_먹다.VVIT ~TRAVOTEAT)
+	#^CreateFactwithParams(나.NNP 부정.MAG_먹다.VVIT ~TRAVOTEAT)
+}
+
+
+

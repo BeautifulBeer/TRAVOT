@@ -190,6 +190,35 @@ def make_n_grams(string, n):
         result.append(string_list)
     return result
 
-#query_naver('자갈치시장 맛집', '남포동')
+# extract title from all processed txt file : question_title
+def extract_title():
+    data = {}
+    title = list()
+    process_dir = root_dir + '\\Processed\\'
+    category_dir_list = [f for f in os.listdir(process_dir) if re.match('.*[^\.a-zA-Z]+',f)]
+    for category_dir in category_dir_list:
+        directory_path = process_dir + category_dir
+        file_list = [f for f in os.listdir(directory_path) if re.match('.*\.txt', f)]
+        for file in file_list:
+            f = open(directory_path + '\\' + file, 'r', encoding='utf-8')
+            json_data = json.loads(f.read(), encoding='utf-8')
+            f.close()
+            for item in json_data['items']:
+                item = json.loads(item)
+                question = {}
+                question['title'] = item['question_title']
+                question['content'] = item['question_content']
+                title.append(question)
+                
+    data['total'] = len(title)
+    data['contents'] = title
+    f = open(process_dir + 'title.json', 'w', encoding='utf-8')
+    f.write(json.dumps(data, ensure_ascii=False))
+    f.close()    
+            
+            
+        
+
+query_naver('연산동 맛집', '남포동')
 #build_json_set_data()
-print(make_n_grams('자갈치시', 5))
+#extract_title()

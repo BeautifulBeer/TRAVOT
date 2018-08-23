@@ -1,0 +1,44 @@
+##<<
+	Building json data to query tourapi
+	Parameter: kind, message, keyword, local, num
+	kind = 종류
+	keyword = 검색명
+	local = 지역
+	num = 반환할 정보 엔티티의 갯수
+
+	kind value - SimpleOutput, Query
+
+	when kind is 'SimpleOutput'
+	{
+		"kind" : "SimpleOutput",
+		"return" : {
+			"message" : MESSAGE_VALUE
+		}
+
+	}
+
+	when kind is 'Query'
+	{
+		"kind" : "Query",
+		"return" : {
+			"message" : MESSAGE, 
+			"keyword" : KEYWORD_VALUE,
+			"local" : LOCAL_VALUE,
+			"num" : NUMBER
+		}
+
+	}
+
+##>>
+
+Tablemacro: ^json_response(^kind ^message ^keyword ^local ^num)
+{
+	if(^kind == simpleoutput)
+	{
+		^print(^'{"kind" : "^kind", "return" : {"message" : ^message}}')
+	}
+	else if(^kind == query)
+	{
+		^print(^'{"kind" : "^kind" , "return" : {"message" : ^message, "keyword" : "^keyword", "local" : "^local", "num" : ^num}}')
+	}
+}
