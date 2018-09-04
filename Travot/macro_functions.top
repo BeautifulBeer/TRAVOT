@@ -6,22 +6,19 @@
 	local = 지역
 	num = 반환할 정보 엔티티의 갯수
 
-	kind value - SimpleOutput, Query
+	kind value - SimpleOut, Query
 
-	when kind is 'SimpleOutput'
+	when kind is 'SimpleOut'
 	{
 		"kind" : "SimpleOutput",
-		"return" : {
-			"message" : MESSAGE_VALUE
-		}
-
+		"message" : MESSAGE_VALUE			
 	}
 
 	when kind is 'Query'
 	{
 		"kind" : "Query",
-		"return" : {
-			"message" : MESSAGE, 
+		"message" : MESSAGE, 
+		"params" : {
 			"keyword" : KEYWORD_VALUE,
 			"local" : LOCAL_VALUE,
 			"num" : NUMBER
@@ -31,14 +28,14 @@
 
 ##>>
 
-Tablemacro: ^json_response(^kind ^message ^keyword ^local ^num)
+Tablemacro: ^json_response variable (^kind ^message ^keyword ^local ^num)
 {
-	if(^kind == simpleoutput)
+	if(^kind==simpleout)
 	{
-		^print(^'{"kind" : "^kind", "return" : {"message" : ^message}}')
+		^print(^'{"kind" : "^kind", "message" : "^message"}')
 	}
-	else if(^kind == query)
+	else if(^kind==query)
 	{
-		^print(^'{"kind" : "^kind" , "return" : {"message" : ^message, "keyword" : "^keyword", "local" : "^local", "num" : ^num}}')
+		^print(^'{"kind" : "^kind", "message" : "^message", "params" : {"keyword" : "^keyword", "local" : "^local", "num" : ^num}}')
 	}
 }

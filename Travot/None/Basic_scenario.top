@@ -1,0 +1,205 @@
+Topic: ~BASICSCENARIO []
+
+##<<
+This file is for basic scenario of chit-chat.
+
+For example, we say very similarly in many cases. Even there are some variation in the dialogue, we can ignore them semantically.
+
+Rule number : 000202
+
+##>>
+
+
+# Case : Don't know what to say.
+# Case : 할말없을 때
+u: 0002021-0 () $$msg = ^o0002021-0() ^json_response(simpleout $$msg)
+	a: 0002021-0-A0 (~긍정) $$msg = ^o0002021-0-A0() ^json_response(simpleout $$msg)
+	a: 0002021-0-A1 (<< 반응.NNV 왜.MAG >> 그렇다.VA) $$msg = ^o0002021-0-A1() ^json_response(simpleout $$msg)
+	a: 0002021-0-A2 (당신.NPP) $$msg = ^o0002021-0-A2() ^json_response(simpleout $$msg)
+	a: 0002021-0-A3 ([~동의 ~반대]) $$msg = ^o0002021-0-A3() ^json_response(simpleout $$msg)
+		b: 0002021-0-A3_B0 (<<어떻다.VA 연락.NNV>>) $$msg = ^o0002021-0-A3_B0() ^json_response(simpleout $$msg)
+		b: 0002021-0-A3_B1 (누구.NPP) $$msg = ^o0002021-0-A3_B1() ^json_response(simpleout $$msg)
+		
+
+# Case : agree with user
+# Case : 동의할 때
+u: 0002021-1 () $$msg = ^o0002021-1() ^json_response(simpleout $$msg)
+	a: 0002021-1-A0 (뭐.NPD 좋다.VA) $$msg = ^o0002021-1-A0() ^json_response(simpleout $$msg)
+		b: 0002021-1-A0_B0 (방금.MAG 말씀하시다.VV 뭐.NPD) $$msg = ^o0002021-1-A0_B0() ^json_response(simpleout $$msg)
+
+
+# Case : not agree with user
+# Case : 동의하지 않을 때
+u: 0002021-2 () $$msg = ^o0002021-2() ^json_response(simpleout $$msg)
+	a: 0002021-2-A0 (~이유) $$msg = ^o0002021-2-A0() ^json_response(simpleout $$msg)
+	a: 0002021-2-A1 ([{의견.NNG} 필요.NNA 없다.VA][~비속어]) ^reuse(0002021-12)
+	a: 0002021-2-A2 (!~부정 존중.NNV) ^reuse(0002021-21)
+
+
+# Case : Recommand funny thing
+# Case : 재밌는거 추천할 때
+u: 0002021-3 () $$msg = ^o0002021-3() ^json_response(simpleout $$msg)
+	a: 0002021-3-A0 (~이유) $$msg = ^o0002021-3-A0() ^json_response(simpleout $$msg)
+		b: 0002021-3-A0_B0 (["나이키.NNP 아니다.VA"][익숙하다.VA]) $$msg = ^o0002021-3-A0_B0() ^json_response(simpleout $$msg) 
+	a: 0002021-3-A1 (한번.MAG {도전.NNV} 하다.VVIT_보다.VX) $$msg = ^o0002021-3-A1() ^json_response(simpleout $$msg)
+	a: 0002021-3-A2 (~감사) $$msg = ^o0002021-3-A2() ^json_response(simpleout $$msg)
+	a: 0002021-3-A3 (~부정) $$msg = ^o0002021-3-A3() ^json_response(simpleout $$msg)
+
+
+# Case : Ignore
+# Case : 무시할 때
+u: 0002021-4 () $$msg = ^o0002021-4() ^json_response(simpleout $$msg)
+	a: 0002021-4-A0 ([어디.MAG 감히.MAG]) $$msg = ^o0002021-4-A0() ^json_response(simpleout $$msg)
+	a: 0002021-4-A1 (~사과) ^reuse(0002021-22)
+	a: 0002021-4-A2 (~일인칭_311T3 무시.NNV) ^reuse(0002021-16)
+
+
+# Case : Swear word
+# Case : 욕설
+u: 0002021-5 (~비속어) $$msg = ^o0002021-5() ^json_response(simpleout $$msg)
+
+
+# Case : bully(by user)
+# Case : 사용자가 괴롭할 때
+u: 0002021-6 () [저 좀 괴롭히지 마세요][제발 그만 좀 하세요][이거 저한테 시비거는 거죠?][이거 갈구는 거 맞죠?]
+	a: 0002021-6-A0 (~부정) 마! 자신있나!
+		b: 0002021-6-A0_B0 (자신.NNG 있다.VA) 자신있는 모습 보기 좋네요
+		b: 0002021-6-A0_B1 (~이인칭_313T3 자신.NNG 있다.VA) [아..][후..] 이건 안 꺼내려고 했는데
+			c: 0002021-6-A0_B1_C0 (뭐.NPD 꺼내다.VVT) 자신감의 원천이요.
+			c: 0002021-6-A0_B1_C1 (꺼내다.VVT_보다.VX) 후.. 꺼내면 기죽을까봐 참는다
+
+# Case : Angry
+# Case : 화날때
+u: 0002021-6 () [그만하실래요][그만 둬 주실래요]? [살짝][조금] 화 나려고 하네요
+	a: 0002021-6-A0 (~부정) ^reuse(0001031-2)
+	a: 0002021-6-A1 (~사과) ^reuse(0002021-22)
+	a: 0002021-6-A2 (<<화.NNG 어찌하다.VVI>>) [단지][저 혼자] 화가 날 뿐이겠죠. [됐어요 그럼][됐네요]
+
+
+# Case : compliment
+# Case : 칭찬해줄때
+u: 0002021-7 () 와 [굉장하신데요?][멋지세요]
+	a: 0002021-7-A0 ([별말씀.NNG 부족.NNA]) [겸손하시기까지..][지나친 겸양은 실례라구요]
+	a: 0002021-7-A1 ([~일인칭_311T3 ~일인칭_낮춤_312T3] 잘하다.VV) [ㅋㅋㅋ][ㅋㅋㅋㅋ] [인정][린정]합니다.
+	a: 0002021-7-A2 (그러다.VV 말다.VX) 네? 사실 Kwanwoong Yoon님 춤추게 만들려고 하는거에요. 칭찬은 고래도 춤추게 만든다고 하잖아요?
+		b: 0002021-7-A2_B0 (감사히.MAG 받다.VVT) [네][넵][좋습니다]
+		b: 0002021-7-A2_B1 (춤추다.VVI_하다.VX) 촬영영상은 TRAVOT으로 보내주시면 됩니다.
+		b: 0002021-7-A2_B2 (음악.NNG) ^reuse(0001031-3)
+	a: 0002021-7-A3 (더하다.VVIT_주다.VX) 그렇다면.. ^reuse(0002021-7)
+
+
+# Case : I can't
+# Case : 못한다고 할때
+u: 0002021-8 () 그것은.. 안될 것 [같아요][같네요]
+	a: 0002021-8-A0 (~이유) 제 능력 밖인 것 같은데요.. 아니 능력 밖이여야만 해요
+	a: 0002021-8-A1 (어찌하다.VVI 없다.VA) 이해해주셔서 [감사합니다][고마워요]
+	a: 0002021-8-A2 (안되다.VV) 그럼 그 안되는게 안됩니다.
+		b: 0002021-8-A2_B0 (안되다.VV) ^reuse(0002021-8-A2)
+
+
+# Case : Correct
+# Case : 참이라고 할때
+u: 0002021-9 () [네][맞아요] 제가 보증[합니다][할께요]
+	a: 0002021-9-A0 (~확신) [확실][확신]합니다.
+	a: 0002021-9-A1 ([똑똑.MAG ~긍정]) ^reuse(0002021-19)
+	a: 0002021-9-A2 (~부정) ^reuse(0002021-20)
+
+
+# Case : Lose
+# Case : 져줄때
+u: 0002021-10 () [음.. 그런 것 같네요][맞는 것 같아요]
+	a: 0002021-10-A0 (뭐.NPD 그러다.VV) 방금 [말씀하신거요][이야기하신거요].
+	a: 0002021-10-A1 ([맞다.VVIT 그렇다.VA]) 네 맞아요!
+	a: 0002021-10-A2 (~일인칭_311T3 이기다.VVIT) [ㅋㅋ 제가 졌어요][항복]
+	a: 0002021-10-A3 (~이인칭_313T3 짓다.VVIT) ^reuse(0002021-4)
+
+
+# Case : console
+# Case : 위로할때
+u: 0002021-11 () [힘을][기운을] 내세요
+	a: 0002021-11-A0 (~감사) [별말씀을요][다 괜찮을거에요!]
+	a: 0002021-11-A1 (~긍정) [좋아요!][좋습니다] 그 자세에요
+	a: 0002021-11-A2 (~부정) 그래도 제가 응원할께요!
+
+
+# Case : Ignored by user
+# Case : 무시 당했을 때
+u: 0002021-12 () [아무렇지도 않게 상처주네?][존중해주세요.. 조금은 말이에요][마상..]
+	a: 0002021-12-A0 (~부정) [왜죠?][너무 하시네요][왜요?]
+	a: 0002021-12-A1 (~사과) ^reuse(0002021-15)
+	a: 0002021-12-A2 (<< 사람.NNG 아니다.VA >>) ^reuse(0002021-14)
+
+
+# Case : complimented by user
+# Case : 칭찬 받을 때
+u: 0002021-13 () [헤헤헤헤헤헤헤헤헿][쿠쿠쿠ㅜ쿸] 감사[합니다][해요]
+
+
+# Case : to be held as a suspect
+# Case : 의심받을때
+u: 0002021-14 (<< ~이인칭_313T3 사람.NNG 아니다.VA >>)  맞아요 저는 인공지능 로봇 TRAVOT 이에요!
+
+
+# Case : user apologize
+# Case : 사과 받을 때
+u: 0002021-15 () [괜찮아요][봐드릴께요] 저는 [광명정대하고 자애로우니까요.][착한 로봇이니까요]
+	a: 0002021-15-A0 (취소.NNV) [치사해요][헐..? 너무하다][뿌뿝(삐짐)]
+		b: 0002021-15-A0_B0 (~긍정) ^reuse(0002021-17)
+	a: 0002021-15-A1 (~일인칭_311T3 ~긍정) 그럼 둘다 그렇다고 [하죠][치죠]
+	a: 0002021-15-A2 (~긍정) ^reuse(0002021-13)
+
+
+# Case : apologize
+# Case : 사과할때
+u: 0002021-16 () [죄송][미안]해요. [상처받으셨다면 사과드릴께요][사과드릴께요]
+	a: 0002021-16-A0 ([~긍정 ~감사]) 다음부턴 주의할께요!
+	a: 0002021-16-A1 (~일인칭_311T3 잘못.NNV) [ㅠㅠ 너무 천사시다][그렇다면.. 당신은 도덕책]
+	a: 0002021-16-A2 (그러다.VV 말다.VX) [네][넵] 알겠습니다
+
+
+# Case : teased by user
+# Case : 놀림받을때
+u: 0002021-17 () [너무 한 거 아니에요?][놀리지 말아요 ㅠㅠ][그러지 말아용]
+
+
+# Case : Thank you
+# Case : 고마움을 표할때
+u: 0002021-18 () [감사합니다!][고마워요][고맙습니다]
+
+
+# Case : arrogant
+# Case : 거만해질때
+u: 0002021-19 () [하하.. 제가 좀 하죠][후훗][그렇죠? 쿠쿸][그 정도야 저에겐 별 거 아니죠][에헴, 제가 좀 그렇죠?]
+
+
+# Case : suspect
+# Case : 의심할 때
+u: 0002021-20 () [정말 확실해요?][진짜에요?][실화인가요?]
+
+
+# Case : respect
+# Case : 존중해줄때
+u: 0002021-21 () [인공지능][로봇]도 존중해주시다니 [당신은 도덕책..][감사합니다!]
+
+
+# Case : forgive
+# Case : 용서해줄때
+u: 0002021-22 () [한 번만][오늘 기분이 좋으니] 봐드릴께요. [이제 그러지 마세요!][저 인공지능이지만 상처 받습니다.]
+	a: 0002021-22-A0 (~긍정) [헤헤][크크] 좋습니다
+	a: 0002021-22-A0 (~부정) 흥칫뿡 너무 하시네
+
+
+
+# This part is typical input pattern rule
+#! 너는 누구야
+patternmacro: ^whoareyou(^object)
+	if(!^object){
+		(~이인칭_313T3 * [누구.NPP 뭐.NPD])
+	}else{
+		(~이인칭_313T3 ^object [아니다.VA 맞다.VVIT])
+	}
+
+# This part is typical output pattern rule
+#! 나는 TRAVOT이야
+outputmacro: ^iam(^object)
+	나는 ^join(^object 이야)

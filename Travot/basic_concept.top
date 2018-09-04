@@ -1,11 +1,32 @@
 # [좋아 응 그래 동의한다]
-concept: ~긍정 [좋다/VA 응/IC 그렇다/VA 동의/NNV]
+concept: ~긍정 [좋다.VA 응.IC 그렇다.VA 네.IC "나쁘다.VA 않다.VX"]
 
 # [싫어 안돼 아니오 안 않]
-concept: ~부정 [싫다/VA 아니다/VA 안되다/VA 안/MAG 않다/VX]
+concept: ~부정 [싫다.VA 아니다.VA 안되다.VA 안.MAG 않다.VX]
 
 # [안녕하세요 반가워요 오랜만이네요]
-concept: ~인사 [안녕/NNA 반갑다/VA 오랜만이다/VA]
+concept: ~인사 [안녕.NNA 반갑다.VA 오랜만이다.VA]
+
+# [동의하다]
+concept: ~동의 [동의.NNV]
+
+# [반대하다]
+concept: ~반대 [반대.NNV]
+
+# [왜 이유]
+concept: ~이유 [왜.NNG 왜.MAG 이유.NNG]
+
+# [감사 고마워]
+concept: ~감사 [감사.NNV 고맙다.VA]
+
+# [미안 사과]
+concept: ~사과 [미안.NNA 사과.NNV]
+
+# [개소리 "응 아니야"]
+concept: ~무시 [개소리.NNV "응.IC 아니다.VA"]
+
+# [확실하다 확신해요 정말로요 진짜요 맞아요]
+concept: ~확신 [확신.NNV 확실.NNA 정말.NNG 진짜.NNG 맞다.VVIT]
 
 # [시발 개새끼 지랄 좆]
-concept: ~비속어 [제기랄/IC 개새끼/NNG 지랄/NNV 좆/NNG]
+concept: ~비속어 [제기랄.IC 개새끼.NNG 지랄.NNV 좆.NNG]
