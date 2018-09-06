@@ -6,7 +6,7 @@ concept: ~관광지_부산_시장 NOUN_PROPER_SINGULAR [~자갈치시장 ~국제
 concept: ~관광지_부산_건축물 NOUN_PROPER_SINGULAR [~광안대교 ~해동용궁사 ~더베이101]
 concept: ~관광지_부산_축제 NOUN_PROPER_SINGULAR [~BIFF ~광안리불꽃축제]
 
-concept: ~해변_부산 NOUN_PROPER_SINGULAR [광안리 송정 청사포 해운대]
+concept: ~해변_부산 NOUN_PROPER_SINGULAR [~광안리 ~송정 ~청사포 ~해운대]
 concept: ~산_부산 NOUN_PROPER_SINGULAR [~금정산 ~황령산]
 
 concept: ~자갈치시장 NOUN_PROPER_SINGULAR [자갈치 자갈치시장]
@@ -17,6 +17,11 @@ concept: ~광안리불꽃축제 NOUN_PROPER_SINGULAR [광안리불꽃축제 부�
 concept: ~광안대교 NOUN_PROPER_SINGULAR [광안대교]
 concept: ~해동용궁사 NOUN_PROPER_SINGULAR [해동용궁사]
 concept: ~더베이101 NOUN_PROPER_SINGULAR [더베이101 더베이]
+
+concept: ~광안리 NOUN_PROPER_SINGULAR [광안리.NNP 광안리해수욕장.NNP]
+concept: ~송정 NOUN_PROPER_SINGULAR [송정.NNP 송정해수욕장.NNP]
+concept: ~청사포 NOUN_PROPER_SINGULAR [청사포.NNP]
+concept: ~해운대 NOUN_PROPER_SINGULAR [해운대.NNP 해운대해수욕장.NNP]
 
 concept: ~황령산 NOUN_PROPER_SINGULAR [황령산]
 concept: ~금정산 NOUN_PROPER_SINGULAR [금정산]

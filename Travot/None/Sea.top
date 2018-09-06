@@ -2,13 +2,17 @@ Topic: ~관광지_바다 keep repeat [~바다_209T3 ~놀이터_572T3 ~여행_58T
 
 
 # System gambit
-t: 0000000-0 () $msg = ^o0000000-0() ^json_response(simpleout $msg)
-#	a: 0000000-0-A0 (~긍정) ^json_response(simpleout ^"Kwanwoong Yoon [님께 맞는][님이 좋아할만한] 부산 [바다][해수욕장] 추천해드릴까요?")
-	a: 0000000-0-A0 (~긍정) $msg = ^o0000000-0-A0() ^json_response(simpleout $msg)
-		b: 0000000-0-A0_B0 ([~긍정 추천.NNV_주다.VX 추천.NNV 해주.NPP]) $msg = ^o0000000-0-A0_B0() ^json_response(simpleout $msg)
-			c: 0000000-0-A0_B0_C0 ({자주.MAG} [좋아하다.VVT 찾다.VVT] {추천.NNV_주다.VX}) $msg = ^o0000000-0-A0_B0_C0() ^json_response(simpleout $msg)
-			C: 0000000-0-A0_B0_C1 ([검색.NNV 찾다.VVT]) $msg = ^o0000000-0-A0_B0_C1() ^json_response(simpleout $msg)
+t: 0000000-0 () $$msg = ^o0000000-0() ^json_response(simpleout $$msg)
+	a: 0000000-0-A0 (~긍정) $$msg = ^o0000000-0-A0() ^json_response(simpleout $$msg)
+		b: 0000000-0-A0_B0 ([~긍정 추천.NNV_주다.VX 추천.NNV 해주.NPP]) $$msg = ^o0000000-0-A0_B0() ^json_response(simpleout $$msg)
+			c: 0000000-0-A0_B0_C0 ({자주.MAG} [좋아하다.VVT] {추천.NNV_주다.VX}) $$msg = ^o0000000-0-A0_B0_C0() ^json_response(simpleout $$msg)
+			c: 0000000-0-A0_B0_C1 ([검색.NNV 찾다.VVT]) $$msg = ^o0000000-0-A0_B0_C1() ^json_response(simpleout $$msg)
+				d: 0000000-0-A0_B0_C1_D0 ([키워드.NNG 키워드.NNG_검색.NNV]) $$msg = ^o0000000-0-A0_B0_C1_D0() ^json_response(simpleout $$msg)
+					e: 0000000-0-A0_B0_C1_D0_E0 (_~해변_부산) $$msg = ^o0000000-0-A0_B0_C1_D0_E0('_0) ^json_response(query $$msg '_0)
+					e: 0000000-0-A0_B0_C1_D0_E1 (!~해변_부산) $$msg = ^o0000000-0-A0_B0_C1_D0_E1() ^json_response(simpleout $$msg) ^reuse(0000000-0-A0_B0_C1_D0)
+					e: 0000000-0-A0_B0_C1_D0_E2 (그만하다.VV) $$msg = ^o0000000-0-A0_B0_C1_D0_E2() ^json_response(simpleout $$msg)
+				d: 0000000-0-A0_B0_C1_D1 ([조거.NPD 조건.NNG 조건.NNG_검색.NNV]) $$msg = ^o0000000-0-A0_B0_C1_D1() ^json_response(simpleout $$msg)
 
+u: 0000001-0 (바다.NNG [추천.NNV_주다.VX][추천.NNV 해주다.VV]) ^reuse(0000000-0-A0)
 
-u: 0000001-0 ([바다.NNG 추천.NNV_주다.VX][바다.NNG 추천.NNV 해주다.VV]) ^reuse(0000000-0-A0)
-
+u: 0000002-0 (_~해변_부산 검색.NNV) $$msg = ^o0000000-0-A0_B0_C1_D0_E0('_0) ^json_response(query $$msg '_0)

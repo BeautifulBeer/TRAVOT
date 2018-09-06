@@ -28,5 +28,13 @@ concept: ~무시 [개소리.NNV "응.IC 아니다.VA"]
 # [확실하다 확신해요 정말로요 진짜요 맞아요]
 concept: ~확신 [확신.NNV 확실.NNA 정말.NNG 진짜.NNG 맞다.VVIT]
 
+
+
+
+
+
+
+
+
 # [시발 개새끼 지랄 좆]
 concept: ~비속어 [제기랄.IC 개새끼.NNG 지랄.NNV 좆.NNG]

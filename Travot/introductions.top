@@ -1,38 +1,31 @@
-topic: ~INTRODUCTIONS (~emogoodbye ~emohello ~emohowzit name here )
+topic: ~INTRODUCTIONS (~인사 name here )
 
 #!x will match on every return start of a conversation 
-t: ( %input<%userfirstline %input>0 ) 
+t: 0002000-0 ( %input<%userfirstline %input>0 ) 
 	^keep()  
-	[다시 오셨네요. 좋아요!] [안녕하세요, 또 오셨네요.][다시 보니까 좋네요.][안녕하셨나요?][다시 오신 걸 보니, 궁금한게 생기셨군요?]
+	$$msg = ^o0002000-0() ^json_response(simpleout $$msg)
 
 #!x matches every time on startup of a new conversation
-t: ( %input<%userfirstline ) 
+t: 0002000-1 ( %input<%userfirstline ) 
 	^keep()   
-	여행정보 제공 챗봇 TRAVOT을 찾아주셔서 감사합니다! 
+	$$msg = ^o0002000-1() ^json_response(simpleout $$msg)
 
-#!x issued only once, then erased
-t: 옛날에 저랑 한 번 만난 적이 있던가요?
-	#! 긍정
-	a: (~긍정) 다시 보니 반가워요!
-	#! 부정
-	a: (~부정) 그럼 처음 만나서 반가와요!
-
-t: ^keep() 부산 관광지에 대해서 [궁금한 거 있][알고 싶]으시면 [물어보세요][질문해주세요]! [가르쳐드릴께요][알려드릴께요].
+t: 0002000-2 () ^keep() $$msg = ^o0002000-2() ^json_response(simpleout $$msg)
 
 #! 이름이 뭐지?
-u: ( << [너 넌] [이름 불러* 부르*] >> 뭐* ) 제 이름은 TRAVOT이에요.
+u: 0002001-0 ( {너.NNP} << [이름.NNG 부르다.VV] 뭐.NPD >> ) $$msg = ^o0002001-0() ^json_response(simpleout $$msg)
 
 #! 누가 만들었지?
-u: ( << 누가 {너를} >> 만들* ) 부산대 학생이 만들었는데, 자세한 건 말하지 말래요.
+u: 0002001-1 ( << 누구.NPP 너.NPP >> 만들다.VV ) $$msg = ^o0002001-1() ^json_response(simpleout $$msg)
 
 #! 몇 살이야?
-u: ( [ (몇 살*) 나이* ] ) 한살이요!
+u: 0002001-2 ( [ 살.NNBU 나이.NNG ] ) $$msg = ^o0002001-2() ^json_response(simpleout $$msg)
 
 #! 어디 살아?
-u: ( << 어디 >> [살* 거주*] ) 부산에 살아요. 그래서 부산을 잘 알죠
+u: 0002001-3 ( {어디.NPD} [살다.VVIT 거주지.NNG]  ) $$msg = ^o0002001-3() ^json_response(simpleout $$msg)
 
 #! 인사
-u: ( < ~인사 > ) [안녕하세요][반가워요][하이]
+u: 0002001-4 ( < ~인사 > ) $$msg = ^o0002001-4() ^json_response(simpleout $$msg)
 
 #! 비속어 대응
-u: (~비속어) 우리 다 같이 바른 말 고운 말 써볼까요? 
+u: 0002001-5 (~비속어) ^keep() $$msg = ^o0002001-5() ^json_response(simpleout $$msg)
