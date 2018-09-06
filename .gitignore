@@ -1,3 +1,14 @@
+**/config
+**/ChatScript
+**/node_modules
 **/*.json
 **/*.txt
+<<<<<<< HEAD
 **/Grammar_Collection/
+=======
+
+!fileTravot.txt
+!package.json
+!package-lock.json
+
+>>>>>>> 886b0880e90f098e9542a75ec77dbee75c2b8159

@@ -1,0 +1,22 @@
+Topic: ~DATABASECONTROL keep repeat [database db]
+
+t: () I can help you to connect postgresql database
+
+#! open
+u: (open)
+	if (^dbinit(dbname = chalkak port = 5432 user = ec2-user password = 13579))
+		{db opened}
+	else
+		{db failed}
+
+#! condition
+u: (show me _* url)
+	$user_name = '_0 
+	if(^dbexecute(^"SELECT url from users where name='$user_name';" 'myfunc))
+		{The url of $user_name is}
+	else
+		{dbexecute failed tables - $$db_error}
+
+
+outputmacro: ^myfunc(^db)
+	preprint(^db)	

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 TOPIC: ~childhood (child childhood kid little memory young younger history "run away")
 #!x  This topic is a sample of a simple topic, with good indentation style.
@@ -12,3 +13,19 @@ t: 어렸을 때 이야기를 해볼까요? 저는 어렸을 때 가출한 적�
     a: ( ~부정 ) 나 처럼 착한 친구였네. 
 
 
+=======
+
+TOPIC: ~childhood (child childhood kid little memory young younger history "run away")
+#!x  This topic is a sample of a simple topic, with good indentation style.
+#!x  It is well commented with annotations for :abstract and :verify.
+
+t: 어렸을 때 이야기를 해볼까요? 저는 어렸을 때 가출한 적이 한 번 있거든요. 있어요? 
+
+    #! sure
+    a: ( ~긍정 ) 가출이라니, 왕년에 굉장했구나? 
+
+    #! never
+    a: ( ~부정 ) 나 처럼 착한 친구였네. 
+
+
+>>>>>>> 886b0880e90f098e9542a75ec77dbee75c2b8159
